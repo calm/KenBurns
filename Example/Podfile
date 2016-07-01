@@ -1,0 +1,6 @@
+use_frameworks!
+target 'KenBurns_Tests' do
+  pod 'KenBurns', :path => '../'
+  
+  
+end
