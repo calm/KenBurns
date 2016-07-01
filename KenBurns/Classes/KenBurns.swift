@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import CLKParametricAnimations
-import FrameAccessor
+import SDWebImage
 
 /* 
  * a view that performs the Ken Burns effect on an image
@@ -59,14 +59,14 @@ class KenBurnsAnimation : Equatable {
         return CGFloat(timeRemaining / fadeOutDuration)
     }
 
-    func currentOrigin(_ width: CGFloat, _ height: CGFloat) -> CGPoint {
+    func currentPosition(_ width: CGFloat, _ height: CGFloat) -> CGPoint {
         return CGPoint(x: width * CGFloat(progressCurved * xFactor),
                        y: height * CGFloat(progressCurved * yFactor))
     }
 
     func update(_ width: CGFloat, _ height: CGFloat) {
         targetImage.alpha = currentAlpha
-        targetImage.origin = currentOrigin(width, height)
+        targetImage.position = currentPosition(width, height)
         let zoom = CGFloat(currentZoom)
         targetImage.transform = CGAffineTransform(scaleX: zoom, y: zoom)
 
@@ -144,7 +144,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
 
     func fetchImage(url: URL, placeholder: UIImage?) {
         [ currentImageView, nextImageView ].forEach {
-            $0.setImageWith(url, placeholderImage: placeholder, fading: false)
+            $0.setImageWith(url, placeholderImage: placeholder)
         }
     }
 
@@ -186,7 +186,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
 
     func updateAllAnimations() {
         animations.forEach {
-            $0.update(self.width, self.height)
+            $0.update(self.w, self.h)
         }
     }
 
