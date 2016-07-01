@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'KenBurns'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'A little Swift tool that performs a nice Ken Burns effect on an image'
   s.description      = 'A little Swift tool that performs a nice Ken Burns effect on an image. Powering Calm since 2016'
   s.homepage         = 'https://github.com/calmcom/KenBurns'
@@ -12,4 +12,5 @@ Pod::Spec.new do |s|
   s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'CLKParametricAnimations', '~> 0.1.0'
   s.dependency 'SDWebImage', '~> 3.8.1'
+  s.dependency 'FrameAccessor', '~> 2.0'
 end
