@@ -1,0 +1,16 @@
+PODS:
+  - KenBurns (0.1.0)
+
+DEPENDENCIES:
+  - KenBurns (from `../`)
+
+EXTERNAL SOURCES:
+  KenBurns:
+    :path: ../
+
+SPEC CHECKSUMS:
+  KenBurns: 97f4eaf7c9240b5ecda160ea6aee76aac5e5a6ba
+
+PODFILE CHECKSUM: 7517abaa8abba9b1c1e3e51bad2f8beaea855ecd
+
+COCOAPODS: 1.0.1
