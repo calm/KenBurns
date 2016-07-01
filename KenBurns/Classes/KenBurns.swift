@@ -98,8 +98,8 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
 }
 
 @objc public class KenBurnsImageView: UIView {
-    var loops = true
-    var zoomIntensity = 1.0
+    public var loops = true
+    public var zoomIntensity = 1.0
 
     lazy var currentImageView: UIImageView = {
         return self.newImageView()
@@ -115,11 +115,11 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
 
     var animations: [KenBurnsAnimation] = []
 
-    var isAnimating: Bool {
+    public var isAnimating: Bool {
         return !animations.isEmpty
     }
 
-    init() {
+    public init() {
         super.init(frame: .zero)
 
         isUserInteractionEnabled = false
@@ -137,12 +137,12 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
         stopAnimating()
     }
 
-    func setImage(image: UIImage) {
+    public func setImage(image: UIImage) {
         currentImageView.image = image
         nextImageView.image = image
     }
 
-    func fetchImage(url: URL, placeholder: UIImage?) {
+    public func fetchImage(url: URL, placeholder: UIImage?) {
         [ currentImageView, nextImageView ].forEach {
             $0.setImageWith(url, placeholderImage: placeholder)
         }
@@ -154,7 +154,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
         return imageView
     }
 
-    func startAnimating() {
+    public func startAnimating() {
         if isAnimating {
             return
         }
@@ -163,7 +163,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
         startNewAnimation()
     }
 
-    func stopAnimating() {
+    public func stopAnimating() {
         animations.removeAll()
         updatesDisplayLink.invalidate()
 
