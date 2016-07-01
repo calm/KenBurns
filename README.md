@@ -34,7 +34,9 @@ func newKenBurnsImageView(image: UIImage) -> KenBurnsImageView {
 }
 ```
 
-Powering [Calm](http://www.calm.com/ios)’s nature scenes and meditations since 2016. We found that adding this effect in place of a static image improves click-through rates (and users love it).
+Ken Burns has been powering [Calm](http://www.calm.com/ios)’s nature scenes and meditations since 2016. We found that adding this effect in place of a static image improves click-through rates (and users love it).
+
+Due to unfortunate circumstances, Calm has no direct affiliation with [Ken Burns](https://en.wikipedia.org/wiki/Ken_Burns) himself 😞
 
 ### Installation
 
