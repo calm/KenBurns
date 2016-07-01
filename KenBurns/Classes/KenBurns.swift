@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import CLKParametricAnimations
+import FrameAccessor
 
 /* 
  * a view that performs the Ken Burns effect on an image
