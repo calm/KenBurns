@@ -4,7 +4,7 @@
 [![License](https://img.shields.io/cocoapods/l/KenBurns.svg?style=flat)](http://cocoapods.org/pods/KenBurns)
 [![Platform](https://img.shields.io/cocoapods/p/KenBurns.svg?style=flat)](http://cocoapods.org/pods/KenBurns)
 
-![](http://i.imgur.com/LmiiXCB.gif)
+![burns](KenBurns.gif)
 
 A simple yet configurable Ken Burns effect using a single image looping over itself. Really draws the user’s attention, much more so than a static image.
 
