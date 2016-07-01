@@ -97,7 +97,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
 }
 
-@objc class KenBurnsImageView: UIView {
+@objc public class KenBurnsImageView: UIView {
     var loops = true
     var zoomIntensity = 1.0
 
@@ -129,7 +129,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
         addSubview(currentImageView)
     }
 
-    required init?(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
