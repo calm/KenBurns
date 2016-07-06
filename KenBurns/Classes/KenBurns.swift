@@ -24,13 +24,13 @@ class KenBurnsAnimation : Equatable {
     var completion: ((animation: KenBurnsAnimation) -> ())?
     var willFadeOut: ((animation: KenBurnsAnimation) -> ())?
 
-    init(targetImage: UIImageView, zoomIntensity: Double) {
+    init(targetImage: UIImageView, zoomIntensity: Double, pansAcross: Bool) {
         self.targetImage = targetImage
 
         let zoomMin = 1 + (0.3 * zoomIntensity)
         let zoomMax = 1 + (1.4 * zoomIntensity)
         zoom = Random.double(zoomMin, zoomMax)
-        xFactor = Random.double((1 - zoom), 0)
+        xFactor = pansAcross ? (1 - zoom) : Random.double((1 - zoom), 0)
         yFactor = Random.double((1 - zoom), 0)
         duration = Random.double(12, 24)
         startTime = CACurrentMediaTime()
@@ -93,12 +93,26 @@ class KenBurnsAnimation : Equatable {
     }
 }
 
+func newKenBurnsImageView(image: UIImage) -> KenBurnsImageView {
+    let ken = KenBurnsImageView()
+    ken.setImage(image: image)
+    ken.zoomIntensity = 1.5
+    ken.loops = false
+    ken.startAnimating()
+    return ken
+}
+
+func stop(ken: KenBurnsImageView) {
+    ken.stopAnimating()
+}
+
 func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
 }
 
 @objc public class KenBurnsImageView: UIView {
     public var loops = true
+    public var pansAcross = false
     public var zoomIntensity = 1.0
 
     lazy var currentImageView: UIImageView = {
@@ -178,7 +192,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     func startNewAnimation() {
         currentImageView.transform = CGAffineTransform.identity
         currentImageView.size = self.size
-        let animation = KenBurnsAnimation(targetImage: currentImageView, zoomIntensity: zoomIntensity)
+        let animation = KenBurnsAnimation(targetImage: currentImageView, zoomIntensity: zoomIntensity, pansAcross: pansAcross)
         animation.completion = self.didFinishAnimation
         animation.willFadeOut = self.willFadeOutAnimation
         animations.append(animation)
