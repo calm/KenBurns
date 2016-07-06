@@ -93,16 +93,16 @@ class KenBurnsAnimation : Equatable {
     }
 }
 
-func newKenBurnsImageView(image: UIImage) -> KenBurnsImageView {
+func newKenBurnsImageView(_ image: UIImage) -> KenBurnsImageView {
     let ken = KenBurnsImageView()
-    ken.setImage(image: image)
+    ken.setImage(image)
     ken.zoomIntensity = 1.5
     ken.loops = false
     ken.startAnimating()
     return ken
 }
 
-func stop(ken: KenBurnsImageView) {
+func stop(_ ken: KenBurnsImageView) {
     ken.stopAnimating()
 }
 
@@ -151,12 +151,12 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
         stopAnimating()
     }
 
-    public func setImage(image: UIImage) {
+    public func setImage(_ image: UIImage) {
         currentImageView.image = image
         nextImageView.image = image
     }
 
-    public func fetchImage(url: URL, placeholder: UIImage?) {
+    public func fetchImage(_ url: URL, placeholder: UIImage?) {
         [ currentImageView, nextImageView ].forEach {
             $0.setImageWith(url, placeholderImage: placeholder)
         }
@@ -204,11 +204,11 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
         }
     }
 
-    func didFinishAnimation(animation: KenBurnsAnimation) {
-        animations.remove(object: animation)
+    func didFinishAnimation(_ animation: KenBurnsAnimation) {
+        animations.remove(animation)
     }
 
-    func willFadeOutAnimation(animation: KenBurnsAnimation) {
+    func willFadeOutAnimation(_ animation: KenBurnsAnimation) {
         swapCurrentAndNext()
         startNewAnimation()
     }

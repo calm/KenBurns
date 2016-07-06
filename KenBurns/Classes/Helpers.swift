@@ -84,7 +84,7 @@ extension UIView {
 }
 
 extension Array where Element : Equatable {
-    mutating func remove(object : Element) {
+    mutating func remove(_ object : Element) {
         if let index = self.index(of: object) {
             self.remove(at: index)
         }
