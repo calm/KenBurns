@@ -93,19 +93,6 @@ class KenBurnsAnimation : Equatable {
     }
 }
 
-func newKenBurnsImageView(_ image: UIImage) -> KenBurnsImageView {
-    let ken = KenBurnsImageView()
-    ken.setImage(image)
-    ken.zoomIntensity = 1.5
-    ken.loops = false
-    ken.startAnimating()
-    return ken
-}
-
-func stop(_ ken: KenBurnsImageView) {
-    ken.stopAnimating()
-}
-
 func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
 }
@@ -178,15 +165,20 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     }
 
     public func stopAnimating() {
-        animations.removeAll()
-        updatesDisplayLink.invalidate()
-
         [ currentImageView, nextImageView ].forEach {
             $0.layer.removeAllAnimations()
             $0.alpha = 1
             $0.transform = CGAffineTransform.identity
             $0.size = self.size
+            $0.position = .zero
         }
+
+        if !isAnimating {
+            return
+        }
+
+        animations.removeAll()
+        updatesDisplayLink.remove(from: RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
     }
 
     func startNewAnimation() {
