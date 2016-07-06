@@ -15,8 +15,7 @@ class KenBurnsAnimation : Equatable {
     let startTime: TimeInterval
     let duration: TimeInterval
 
-    let xFactor: Double
-    let yFactor: Double
+    let offsets: (x: Double, y: Double)
     let zoom: Double
 
     let fadeOutDuration: TimeInterval = 2.0
@@ -27,13 +26,26 @@ class KenBurnsAnimation : Equatable {
     init(targetImage: UIImageView, zoomIntensity: Double, pansAcross: Bool) {
         self.targetImage = targetImage
 
+        duration = Random.double(20, 30)
+        startTime = CACurrentMediaTime()
+
         let zoomMin = 1 + (0.3 * zoomIntensity)
         let zoomMax = 1 + (1.4 * zoomIntensity)
         zoom = Random.double(zoomMin, zoomMax)
-        xFactor = pansAcross ? (1 - zoom) : Random.double((1 - zoom), 0)
-        yFactor = Random.double((1 - zoom), 0)
-        duration = Random.double(12, 24)
-        startTime = CACurrentMediaTime()
+
+        /* zooms to within maximal square within bounds that won't expose the edge of the image */
+        let range = (min: (1 - zoom), max: 0.0)
+        if pansAcross {
+            offsets = (
+                x: range.min,
+                y: Random.double(0.3 * range.min, 0.7 * range.min)
+            )
+        } else {
+            offsets = (
+                x: Random.double(range.min, range.max),
+                y: Random.double(range.min, range.max)
+            )
+        }
     }
 
     var timeRemaining: TimeInterval {
@@ -60,8 +72,8 @@ class KenBurnsAnimation : Equatable {
     }
 
     func currentPosition(_ width: CGFloat, _ height: CGFloat) -> CGPoint {
-        return CGPoint(x: width * CGFloat(progressCurved * xFactor),
-                       y: height * CGFloat(progressCurved * yFactor))
+        return CGPoint(x: width * CGFloat(progressCurved * offsets.x),
+                       y: height * CGFloat(progressCurved * offsets.y))
     }
 
     func update(_ width: CGFloat, _ height: CGFloat) {
