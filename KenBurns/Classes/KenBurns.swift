@@ -26,7 +26,7 @@ class KenBurnsAnimation : Equatable {
     init(targetImage: UIImageView, zoomIntensity: Double, pansAcross: Bool) {
         self.targetImage = targetImage
 
-        duration = Random.double(20, 30)
+        duration = Random.double(10, 20)
         startTime = CACurrentMediaTime()
 
         let zoomMin = 1 + (0.3 * zoomIntensity)
