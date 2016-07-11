@@ -9,6 +9,8 @@ import SDWebImage
  * http://www.twangnation.com/blog/http://example.com/uploads/2014/01/kenburns_portrait.jpg
  */
 
+public typealias DurationRange = (max: Double, min: Double)
+
 class KenBurnsAnimation : Equatable {
     let targetImage: UIImageView
 
@@ -23,10 +25,10 @@ class KenBurnsAnimation : Equatable {
     var completion: ((animation: KenBurnsAnimation) -> ())?
     var willFadeOut: ((animation: KenBurnsAnimation) -> ())?
 
-    init(targetImage: UIImageView, zoomIntensity: Double, pansAcross: Bool) {
+    init(targetImage: UIImageView, zoomIntensity: Double, durationRange: DurationRange, pansAcross: Bool) {
         self.targetImage = targetImage
 
-        duration = Random.double(10, 20)
+        duration = Random.double(durationRange.min, durationRange.max)
         startTime = CACurrentMediaTime()
 
         let zoomMin = 1 + (0.3 * zoomIntensity)
@@ -113,6 +115,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     public var loops = true
     public var pansAcross = false
     public var zoomIntensity = 1.0
+    public var durationRange: DurationRange = (min: 10, max: 20)
 
     lazy var currentImageView: UIImageView = {
         return self.newImageView()
@@ -161,6 +164,11 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
         }
     }
 
+    // Swift can set durationRange directly, but objc needs this method to modify tuple
+    public func setDuration(min: Double, max: Double) {
+        self.durationRange = (min: min, max: max)
+    }
+
     func newImageView() -> UIImageView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -196,7 +204,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     func startNewAnimation() {
         currentImageView.transform = CGAffineTransform.identity
         currentImageView.size = self.size
-        let animation = KenBurnsAnimation(targetImage: currentImageView, zoomIntensity: zoomIntensity, pansAcross: pansAcross)
+        let animation = KenBurnsAnimation(targetImage: currentImageView, zoomIntensity: zoomIntensity, durationRange: durationRange, pansAcross: pansAcross)
         animation.completion = self.didFinishAnimation
         animation.willFadeOut = self.willFadeOutAnimation
         animations.append(animation)
