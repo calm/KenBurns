@@ -35,8 +35,9 @@ You can also initialize with a direct `UIImage` rather than a URL, and there are
 func newKenBurnsImageView(image: UIImage) -> KenBurnsImageView {
     let ken = KenBurnsImageView()
     ken.setImage(image: image)
-    ken.zoomIntensity = 1.5
+    ken.zoomIntensity = 1.5 // Defaults to 1.0.
     ken.setDuration(min: 5, max: 13)
+    ken.pansAcross = false // Defaults to true.
     ken.startAnimating()
     return ken
 }
