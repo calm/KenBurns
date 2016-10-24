@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'KenBurns'
-  s.version          = '0.2.4'
+  s.version          = '0.2.5'
   s.summary          = 'A little Swift tool that performs a nice Ken Burns effect on an image'
   s.description      = 'A little Swift tool that performs a nice Ken Burns effect on an image. Powering Calm since 2016'
   s.homepage         = 'https://github.com/calmcom/KenBurns'
