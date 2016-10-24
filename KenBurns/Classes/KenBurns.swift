@@ -22,8 +22,8 @@ class KenBurnsAnimation : Equatable {
 
     let fadeOutDuration: TimeInterval = 2.0
 
-    var completion: ((animation: KenBurnsAnimation) -> ())?
-    var willFadeOut: ((animation: KenBurnsAnimation) -> ())?
+    var completion: ((_ animation: KenBurnsAnimation) -> ())?
+    var willFadeOut: ((_ animation: KenBurnsAnimation) -> ())?
 
     init(targetImage: UIImageView, zoomIntensity: Double, durationRange: DurationRange, pansAcross: Bool) {
         self.targetImage = targetImage
@@ -93,7 +93,7 @@ class KenBurnsAnimation : Equatable {
             return
         }
         guard let willFadeOut = self.willFadeOut else { return }
-        willFadeOut(animation: self)
+        willFadeOut(self)
         self.willFadeOut = nil // never call it again
     }
 
@@ -102,7 +102,7 @@ class KenBurnsAnimation : Equatable {
             return
         }
         guard let completion = self.completion else { return }
-        completion(animation: self)
+        completion(self)
         self.completion = nil // never call it again
     }
 }
@@ -180,7 +180,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
             return
         }
 
-        updatesDisplayLink.add(to: RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
+        updatesDisplayLink.add(to: RunLoop.main, forMode: .commonModes)
         startNewAnimation()
     }
 
@@ -198,7 +198,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
         }
 
         animations.removeAll()
-        updatesDisplayLink.remove(from: RunLoop.main(), forMode: RunLoopMode.commonModes.rawValue)
+        updatesDisplayLink.remove(from: RunLoop.main, forMode: .commonModes)
     }
 
     func startNewAnimation() {

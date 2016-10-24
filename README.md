@@ -28,7 +28,7 @@ func newKenBurnsImageView(image: UIImage) -> KenBurnsImageView {
     let ken = KenBurnsImageView()
     ken.setImage(image: image)
     ken.zoomIntensity = 1.5
-    ken.loops = false
+    ken.setDuration(min: 5, max: 13)
     ken.startAnimating()
     return ken
 }
