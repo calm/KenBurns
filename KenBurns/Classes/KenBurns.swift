@@ -39,13 +39,13 @@ class KenBurnsAnimation : Equatable {
         let range = (min: (1 - zoom), max: 0.0)
         if pansAcross {
             offsets = (
-                x: range.min,
-                y: Random.double(0.3 * range.min, 0.7 * range.min)
+                x: Random.double(range.min, range.max),
+                y: Random.double(range.min, range.max)
             )
         } else {
             offsets = (
-                x: Random.double(range.min, range.max),
-                y: Random.double(range.min, range.max)
+                x: range.min,
+                y: Random.double(0.3 * range.min, 0.7 * range.min)
             )
         }
     }
@@ -113,7 +113,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
 
 @objc public class KenBurnsImageView: UIView {
     public var loops = true
-    public var pansAcross = false
+    public var pansAcross = true
     public var zoomIntensity = 1.0
     public var durationRange: DurationRange = (min: 10, max: 20)
 
