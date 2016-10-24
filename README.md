@@ -19,6 +19,14 @@ func newKenBurnsImageView(url: URL) -> KenBurnsImageView {
 func stop(ken: KenBurnsImageView) {
     ken.stopAnimating()
 }
+
+func pause(ken: KenBurnsImageView) {
+    ken.pause()
+}
+
+func resume(ken: KenBurnsImageView) {
+    ken.resume()
+}
 ```
 
 You can also initialize with a direct `UIImage` rather than a URL, and there are some paramaters you can set to configure the appearance:

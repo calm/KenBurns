@@ -14,7 +14,7 @@ public typealias DurationRange = (max: Double, min: Double)
 class KenBurnsAnimation : Equatable {
     let targetImage: UIImageView
 
-    let startTime: TimeInterval
+    var startTime: TimeInterval
     let duration: TimeInterval
 
     let offsets: (x: Double, y: Double)
@@ -117,6 +117,10 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     public var zoomIntensity = 1.0
     public var durationRange: DurationRange = (min: 10, max: 20)
 
+    public var isAnimating: Bool {
+        return !animations.isEmpty
+    }
+    
     lazy var currentImageView: UIImageView = {
         return self.newImageView()
     }()
@@ -130,10 +134,8 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     }()
 
     var animations: [KenBurnsAnimation] = []
+    var timeAtPause: CFTimeInterval = 0
 
-    public var isAnimating: Bool {
-        return !animations.isEmpty
-    }
 
     public init() {
         super.init(frame: .zero)
@@ -199,6 +201,19 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
 
         animations.removeAll()
         updatesDisplayLink.remove(from: RunLoop.main, forMode: .commonModes)
+    }
+    
+    public func pause()  {
+        updatesDisplayLink.isPaused = true
+        // Save the time so we can resume the animation from where we left of.
+        timeAtPause = layer.convertTime(CACurrentMediaTime(), from: nil)
+    }
+    
+    public func resume() {
+        let timeSincePause = layer.convertTime(CACurrentMediaTime(), from: nil) - timeAtPause
+        // Add the elapsed time since pause to startTime, so the progress is caculated from where we left off.
+        animations.forEach { $0.startTime += timeSincePause }
+        updatesDisplayLink.isPaused = false
     }
 
     func startNewAnimation() {
