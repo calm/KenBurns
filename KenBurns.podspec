@@ -11,6 +11,6 @@ Pod::Spec.new do |s|
   s.tvos.deployment_target = '9.0'
   s.source_files = 'KenBurns/Classes/**/*'
   s.frameworks = 'UIKit'
-  s.dependency 'CLKParametricAnimations', :git => 'git@github.com:matteocrippa/CLKParametricAnimations.git'
+  s.dependency 'CLKParametricAnimations'
   s.dependency 'SDWebImage', '~> 3.8.1'
 end
