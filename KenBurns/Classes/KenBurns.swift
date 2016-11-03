@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import CLKParametricAnimations
+import CalmParametricAnimations
 import SDWebImage
 
 /* 
