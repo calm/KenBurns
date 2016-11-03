@@ -8,6 +8,7 @@ Pod::Spec.new do |s|
   s.author           = { 'calmcom' => 'support@calm.com' }
   s.source           = { :git => 'https://github.com/calmcom/KenBurns.git', :tag => s.version.to_s }
   s.ios.deployment_target = '8.0'
+  s.tvos.deployment_target = '9.0'
   s.source_files = 'KenBurns/Classes/**/*'
   s.frameworks = 'UIKit'
   s.dependency 'CLKParametricAnimations', '~> 0.1.0'
