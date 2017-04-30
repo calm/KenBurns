@@ -162,7 +162,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
 
     public func fetchImage(_ url: URL, placeholder: UIImage?) {
         [ currentImageView, nextImageView ].forEach {
-            $0.setImageWith(url, placeholderImage: placeholder)
+            $0.sd_setImage(with: url, placeholderImage: placeholder)
         }
     }
 
