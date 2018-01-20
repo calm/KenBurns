@@ -225,7 +225,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
         animations.append(animation)
     }
 
-    func updateAllAnimations() {
+    @objc func updateAllAnimations() {
         animations.forEach {
             $0.update(self.w, self.h)
         }
