@@ -148,7 +148,17 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     }
 
     public required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+    }
+    
+    public override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        isUserInteractionEnabled = false
+        clipsToBounds = true
+        
+        addSubview(nextImageView)
+        addSubview(currentImageView)
     }
 
     deinit {
