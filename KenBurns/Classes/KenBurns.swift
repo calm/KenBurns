@@ -192,7 +192,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
             return
         }
 
-        updatesDisplayLink.add(to: RunLoop.main, forMode: .commonModes)
+        updatesDisplayLink.add(to: RunLoop.main, forMode: .common)
         startNewAnimation()
     }
 
@@ -210,7 +210,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
         }
 
         animations.removeAll()
-        updatesDisplayLink.remove(from: RunLoop.main, forMode: .commonModes)
+        updatesDisplayLink.remove(from: RunLoop.main, forMode: .common)
     }
     
     public func pause()  {
@@ -251,7 +251,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     }
 
     func swapCurrentAndNext() {
-        bringSubview(toFront: currentImageView)
+        bringSubviewToFront(currentImageView)
 
         let temp = currentImageView
         currentImageView = nextImageView
