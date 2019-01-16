@@ -148,7 +148,17 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     }
 
     public required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+    }
+    
+    public override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        isUserInteractionEnabled = false
+        clipsToBounds = true
+        
+        addSubview(nextImageView)
+        addSubview(currentImageView)
     }
 
     deinit {
@@ -182,7 +192,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
             return
         }
 
-        updatesDisplayLink.add(to: RunLoop.main, forMode: .commonModes)
+        updatesDisplayLink.add(to: RunLoop.main, forMode: .common)
         startNewAnimation()
     }
 
@@ -200,7 +210,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
         }
 
         animations.removeAll()
-        updatesDisplayLink.remove(from: RunLoop.main, forMode: .commonModes)
+        updatesDisplayLink.remove(from: RunLoop.main, forMode: .common)
     }
     
     public func pause()  {
@@ -225,7 +235,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
         animations.append(animation)
     }
 
-    func updateAllAnimations() {
+    @objc func updateAllAnimations() {
         animations.forEach {
             $0.update(self.w, self.h)
         }
@@ -241,7 +251,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     }
 
     func swapCurrentAndNext() {
-        bringSubview(toFront: currentImageView)
+        bringSubviewToFront(currentImageView)
 
         let temp = currentImageView
         currentImageView = nextImageView
