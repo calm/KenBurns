@@ -42,6 +42,24 @@ func newKenBurnsImageView(image: UIImage) -> KenBurnsImageView {
 }
 ```
 
+EXAMPLE- To use KenBurnsImageView with already cached image and setting it as a background image 
+
+```
+SDWebImageManager.shared.loadImage(with: URL(string: (course?.imageURL!)!), options: SDWebImageOptions.highPriority, progress: { (x, y, url) in
+        }) { (image, data, error, cacheType, someBoolean, url) in
+            if(error==nil){
+                let ken = KenBurnsImageView()
+                ken.frame=CGRect(x: 0,y: 0,width: self.view.frame.width,height: self.view.frame.height)
+                ken.setImage(image!)
+                ken.zoomIntensity = 1.1
+                ken.startAnimating()
+                self.view.addSubview(ken)
+                self.view.sendSubviewToBack(ken)
+                
+            }
+        }
+```
+
 Ken Burns has been powering [Calm](http://www.calm.com/ios)’s nature scenes and meditations since 2016. We found that adding this effect in place of a static image improves click-through rates (and users love it).
 
 Due to unfortunate circumstances, Calm has no direct affiliation with [Ken Burns](https://en.wikipedia.org/wiki/Ken_Burns) himself 😞
