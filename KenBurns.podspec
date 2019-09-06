@@ -12,6 +12,6 @@ Pod::Spec.new do |s|
   s.source_files = 'KenBurns/Classes/**/*'
   s.frameworks = 'UIKit'
   s.dependency 'CalmParametricAnimations', '~> 1.0.1'
-  s.dependency 'SDWebImage', '~> 3.8.2'
+  s.dependency 'SDWebImage', '~> 5.1.0'
   s.swift_version = '4.2'
 end
