@@ -1,12 +1,18 @@
 # Ken Burns
 
+## Single Images
+
 ![burns](KenBurns.gif)
 
-A simple yet configurable Ken Burns effect using a single image looping over itself. Really draws the user’s attention, much more so than a static image.
+## Queue Images
+
+![burns](KenBurns2.gif)
+
+A simple yet configurable Ken Burns effect. Use a single image or queue multiple images. The Kens Burns effect is a popular transition effect in film popularized by American documentarian Ken Burns. It creates the effect of motion using still imagery.
 
 ### Usage
 
-`KenBurns` is written in Swift, but you can use `KenBurnsImageView` from Swift or Objective-C.  Examples are in Swift 3.0:
+`KenBurns` is written in Swift, use `KenBurnsImageView` from Swift or Objective-C.  Examples are in Swift 3.0:
 
 ```swift
 func newKenBurnsImageView(url: URL) -> KenBurnsImageView {
@@ -29,7 +35,7 @@ func resume(ken: KenBurnsImageView) {
 }
 ```
 
-You can also initialize with a direct `UIImage` rather than a URL, and there are some paramaters you can set to configure the appearance:
+Initialize with `UIImage` or `URL`, and there are some paramaters you can set to configure the appearance:
 
 ```swift
 func newKenBurnsImageView(image: UIImage) -> KenBurnsImageView {
@@ -45,6 +51,16 @@ func newKenBurnsImageView(image: UIImage) -> KenBurnsImageView {
 Ken Burns has been powering [Calm](http://www.calm.com/ios)’s nature scenes and meditations since 2016. We found that adding this effect in place of a static image improves click-through rates (and users love it).
 
 Due to unfortunate circumstances, Calm has no direct affiliation with [Ken Burns](https://en.wikipedia.org/wiki/Ken_Burns) himself 😞
+
+### Demo
+
+Launch and run
+
+```
+roadtrip.xcworkspace
+```
+
+To view demo
 
 ### Installation
 
