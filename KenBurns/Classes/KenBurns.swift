@@ -53,7 +53,7 @@ class KenBurnsAnimation : Equatable {
     var timeRemaining: TimeInterval {
         return (1 - progress) * duration
     }
-
+    
     var progress: Double {
         return (CACurrentMediaTime() - startTime) / duration
     }
@@ -135,7 +135,13 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
 
     var animations: [KenBurnsAnimation] = []
     var timeAtPause: CFTimeInterval = 0
-
+    
+    var imageQueue : [UIImage] = [UIImage]()
+    var imageURLs : [URL] = [URL]()
+    var imagePlaceholders : [UIImage?]? = [UIImage]()
+    
+    private var index = -1
+    private var remoteQueue = false
 
     public init() {
         super.init(frame: .zero)
@@ -166,6 +172,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     }
 
     public func setImage(_ image: UIImage) {
+        index = -1
         currentImageView.image = image
         nextImageView.image = image
     }
@@ -194,6 +201,28 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
 
         updatesDisplayLink.add(to: RunLoop.main, forMode: .common)
         startNewAnimation()
+    }
+    
+    public func setImageQueue(withImages images:[UIImage]) {
+        if images.count == 0 {
+            fatalError("This is an empty queue!")
+        }
+        
+        remoteQueue = false
+        index = 0
+        self.imageQueue = images
+    }
+    
+    public func setImageQueue(withUrls urls:[URL], placeholders: [UIImage]?) {
+        guard placeholders == nil || placeholders?.count == urls.count else {
+            fatalError("You don't have a placeholder for every image!")
+        }
+        
+        remoteQueue = true
+        self.imageURLs = urls
+        self.imagePlaceholders = placeholders
+        
+        index = 0
     }
 
     public func stopAnimating() {
@@ -243,16 +272,44 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
 
     func didFinishAnimation(_ animation: KenBurnsAnimation) {
         animations.remove(animation)
+        
     }
 
     func willFadeOutAnimation(_ animation: KenBurnsAnimation) {
         swapCurrentAndNext()
         startNewAnimation()
+        
+        if index >= 0 {
+            queueNextImage()
+        }
+    }
+    
+    func queueNextImage() {
+        if remoteQueue  {
+            if imagePlaceholders == nil {
+                index = (index + 1) % imageURLs.count
+
+                nextImageView.sd_setImage(with: imageURLs[index])
+
+            } else {
+                index = (index + 1) % imageURLs.count
+
+                nextImageView.sd_setImage(with: imageURLs[index], placeholderImage: imagePlaceholders![index])
+
+            }
+
+        } else {
+            index = (index + 1) % imageQueue.count
+
+            nextImageView.image = imageQueue[index]
+
+        }
+
     }
 
     func swapCurrentAndNext() {
         bringSubviewToFront(currentImageView)
-
+        
         let temp = currentImageView
         currentImageView = nextImageView
         nextImageView = temp
