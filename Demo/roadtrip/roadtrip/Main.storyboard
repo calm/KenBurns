@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pwZ-6h-x3f">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="BtT-Aj-AhQ">
+            <objects>
+                <viewController id="pwZ-6h-x3f" customClass="ViewController" customModule="roadtrip" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0Xj-IV-MsU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zfz-0d-80j" customClass="KenBurnsImageView" customModule="roadtrip" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="X2i-m2-MNB" firstAttribute="trailing" secondItem="zfz-0d-80j" secondAttribute="trailing" id="1Fo-i6-ZVD"/>
+                            <constraint firstItem="zfz-0d-80j" firstAttribute="top" secondItem="X2i-m2-MNB" secondAttribute="top" id="5cG-4B-Cbw"/>
+                            <constraint firstItem="X2i-m2-MNB" firstAttribute="bottom" secondItem="zfz-0d-80j" secondAttribute="bottom" id="KZj-HP-3LK"/>
+                            <constraint firstItem="zfz-0d-80j" firstAttribute="leading" secondItem="X2i-m2-MNB" secondAttribute="leading" id="Kgo-jI-k8h"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="X2i-m2-MNB"/>
+                    </view>
+                    <connections>
+                        <outlet property="kenBurnsImageView" destination="zfz-0d-80j" id="4e7-bW-Hk4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GOY-5K-LMc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="39" y="195"/>
+        </scene>
+    </scenes>
+</document>

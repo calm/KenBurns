@@ -1,0 +1,6 @@
+framework module Pods_roadtrip {
+  umbrella header "Pods-roadtrip-umbrella.h"
+
+  export *
+  module * { export * }
+}
