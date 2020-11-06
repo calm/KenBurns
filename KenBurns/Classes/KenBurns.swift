@@ -3,7 +3,7 @@ import UIKit
 import CalmParametricAnimations
 import Kingfisher
 
-/* 
+/*
  * a view that performs the Ken Burns effect on an image
  * see here: https://en.wikipedia.org/wiki/Ken_Burns_effect
  * http://www.twangnation.com/blog/http://example.com/uploads/2014/01/kenburns_portrait.jpg
@@ -53,7 +53,7 @@ class KenBurnsAnimation : Equatable {
     var timeRemaining: TimeInterval {
         return (1 - progress) * duration
     }
-    
+
     var progress: Double {
         return (CACurrentMediaTime() - startTime) / duration
     }
@@ -96,7 +96,7 @@ class KenBurnsAnimation : Equatable {
         willFadeOut(self)
         self.willFadeOut = nil // never call it again
     }
-    
+
     func forceFadeOut() {
         self.duration = CACurrentMediaTime() - startTime + 2.0
     }
@@ -124,7 +124,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     public var isAnimating: Bool {
         return !animations.isEmpty
     }
-    
+
     lazy var currentImageView: UIImageView = {
         return self.newImageView()
     }()
@@ -132,7 +132,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     lazy var nextImageView: UIImageView = {
         return self.newImageView()
     }()
-    
+
     lazy var updatesDisplayLink: CADisplayLink = {
         return CADisplayLink(target: self, selector: #selector(updateAllAnimations))
     }()
@@ -140,11 +140,11 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     var animations: [KenBurnsAnimation] = []
     var timeAtPause: CFTimeInterval = 0
     var completed : (() -> Void)?
-    
+
     var imageQueue : RingBuffer<UIImage>? = nil
     var imageURLs : RingBuffer<URL>? = nil
     var imagePlaceholders : RingBuffer<UIImage>? = nil
-    
+
     var index = -1
     private var remoteQueue = false
 
@@ -153,7 +153,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
 
         isUserInteractionEnabled = false
         clipsToBounds = true
-        
+
 
         addSubview(nextImageView)
         addSubview(currentImageView)
@@ -162,16 +162,16 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
+
     public override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         isUserInteractionEnabled = false
         clipsToBounds = true
-        
+
         nextImageView.kf.indicatorType = .activity
         currentImageView.kf.indicatorType = .activity
-        
+
         addSubview(nextImageView)
         addSubview(currentImageView)
     }
@@ -209,48 +209,48 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
         }
 
         updatesDisplayLink.add(to: RunLoop.main, forMode: .common)
-        startNewAnimation()
+        startNewAnimationWithoutDelay()
     }
-    
+
     public func setImageQueue(withImages images:[UIImage]) {
         if images.count == 0 {
             fatalError("This is an empty queue!")
         }
-        
+
         remoteQueue = false
         index = 0
         self.imageQueue = RingBuffer(count: images.count)
-        
+
         for i in images {
             self.imageQueue?.write(i)
         }
-        
+
         queueNextImage()
     }
-    
+
     public func setImageQueue(withUrls urls:[URL], placeholders: [UIImage]?) {
         guard placeholders == nil || placeholders?.count == urls.count else {
             fatalError("You don't have a placeholder for every image!")
         }
-        
+
         remoteQueue = true
         self.imageURLs = RingBuffer<URL>(count: urls.count)
         self.imagePlaceholders = RingBuffer<UIImage>(count: urls.count)
-        
+
         for u in urls {
             self.imageURLs?.write(u)
         }
-        
+
         self.fetchImage(self.imageURLs!.read()!, placeholder: nil)
-        
+
         if placeholders != nil {
             for p in placeholders! {
                 self.imagePlaceholders!.write(p)
             }
         }
-        
+
         index = 0
-        
+
         queueNextImage()
     }
 
@@ -270,18 +270,27 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
         animations.removeAll()
         updatesDisplayLink.remove(from: RunLoop.main, forMode: .common)
     }
-    
+
     public func pause()  {
         updatesDisplayLink.isPaused = true
         // Save the time so we can resume the animation from where we left of.
         timeAtPause = layer.convertTime(CACurrentMediaTime(), from: nil)
     }
-    
+
     public func resume() {
         let timeSincePause = layer.convertTime(CACurrentMediaTime(), from: nil) - timeAtPause
         // Add the elapsed time since pause to startTime, so the progress is caculated from where we left off.
         animations.forEach { $0.startTime += timeSincePause }
         updatesDisplayLink.isPaused = false
+    }
+
+    func startNewAnimationWithoutDelay() {
+        currentImageView.transform = CGAffineTransform.identity
+        currentImageView.size = self.size
+        let animation = KenBurnsAnimation(targetImage: currentImageView, zoomIntensity: zoomIntensity, durationRange: (min: 1, max: 1), pansAcross: pansAcross)
+        animation.completion = self.didFinishAnimation
+        animation.willFadeOut = self.willFadeOutAnimation
+        animations.append(animation)
     }
 
     func startNewAnimation() {
@@ -303,7 +312,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
         animations.remove(animation)
         queueNextImage()
     }
-    
+
     func nextImage() {
         animations[0].forceFadeOut()
     }
@@ -312,7 +321,7 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
         swapCurrentAndNext()
         startNewAnimation()
     }
-    
+
     func queueNextImage() {
         if remoteQueue  {
             if imagePlaceholders == nil {
@@ -324,6 +333,10 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
                 nextImageView.kf.indicatorType = .activity
             }
         } else {
+            guard let queue = imageQueue else {
+                nextImageView.image = currentImageView.image;
+                return;
+            }
             nextImageView.image = imageQueue!.read()
         }
 
@@ -336,6 +349,6 @@ func ==(lhs: KenBurnsAnimation, rhs: KenBurnsAnimation) -> Bool {
         let temp = currentImageView
         currentImageView = nextImageView
         nextImageView = temp
-           
+
     }
 }
